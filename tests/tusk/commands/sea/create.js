@@ -16,7 +16,7 @@ exports.test = function () {
             "name": "sea1",
             "path": path.valueOf()
         },
-        "sea create --name {name} {path}",
+        "tusk sea create --name {name} {path}",
         [
             {
                "name": "{name}",

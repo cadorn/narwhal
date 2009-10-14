@@ -15,15 +15,13 @@ exports.testNoPackage = function () {
         {
             "path": path.valueOf()
         },
-        "sea init {path}",
-        [
-            [{
-                "type": "error"
-            },{
+        "tusk sea init {path}",
+        [[{type: "error"}, [
+            {
                 "path": "{path}",
                 "message": "No package found at: {path}"
-            }]
-        ]);
+            }
+        ]]]);
 
     TUSK_TEST_UTIL.teardown(tusk);
 };
@@ -40,15 +38,13 @@ exports.testNoValidPackage = function () {
         {
             "path": path.valueOf()
         },
-        "sea init {path}",
-        [
-            [{
-                "type": "error"
-            },{
+        "tusk sea init {path}",
+        [[{type: "error"}, [
+            {
                 "path": "{path}",
                 "message": "No valid package found at: {path}"
-            }]
-        ]);
+            }
+        ]]]);
     path.rmtree();
 
     TUSK_TEST_UTIL.teardown(tusk);

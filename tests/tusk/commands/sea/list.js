@@ -13,7 +13,7 @@ exports.test = function () {
         {
             "path": tusk.getSea().getPath().valueOf()
         },
-        "sea list",
+        "tusk sea list",
         [
             {
                 "index": 1,

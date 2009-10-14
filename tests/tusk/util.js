@@ -18,11 +18,15 @@ var buildPath = SEA.getActive().getBuildPath().join("test", "tusk");
 
 
 
+exports.print = function(msg) {
+    STREAM.print(msg);
+}
+
 exports.getBuildPath = function() {
     return buildPath;
 }
 
-exports.setup = function() {
+exports.setup = function(themeName) {
     
     var planetPath = exports.getBuildPath().join("planets", "defaultPlanet");
     if(planetPath.exists()) {
@@ -41,7 +45,9 @@ exports.setup = function() {
         name: "defaultSea"
     });
 
-    return TUSK.Tusk(planet, sea, THEME.Theme("json-stream"));
+    var theme = THEME.Theme((themeName || "json-stream"));
+
+    return TUSK.Tusk(planet, sea, theme);
 }
 
 exports.teardown = function(tusk) {
@@ -53,7 +59,7 @@ exports.expectResult = function(tusk, vars, command, data, debug) {
     command = exports.replaceVars(command, vars);
     debug = debug || false;
     var result = tusk.command(command).getMessages();
-    
+
     // collect all messages into groups by type
     var messages = {};
     result.forEach(function(message) {
@@ -69,7 +75,7 @@ exports.expectResult = function(tusk, vars, command, data, debug) {
         if(UTIL.isArrayLike(data[i])) {
             if(data[i].length==2) {
                 if(!organizedData[data[i][0].type]) {
-                    organizedData[data[i][0].type] = {messages: [], match: data[i][0].match};
+                    organizedData[data[i][0].type] = {messages: [], match: (data[i][0].match || "all")};
                 }
                 organizedData[data[i][0].type].messages = exports.replaceVars(data[i][1], vars);
             } else {
@@ -88,7 +94,6 @@ exports.expectResult = function(tusk, vars, command, data, debug) {
         try {
             switch(organizedData[messageType].match) {
                 case "all":
-                    ASSERT.eq(organizedData[messageType].messages.length, messages[messageType].length);
                     ASSERT.eq(organizedData[messageType].messages, messages[messageType]);
                     break;
                 case "contains":
@@ -112,18 +117,14 @@ exports.expectResult = function(tusk, vars, command, data, debug) {
                     break;
             }
         } catch(e) {
-            STREAM.print("\0yellow(Expected (" + organizedData[messageType].match + "):\0)");
-            organizedData[messageType].messages.forEach(function(message) {
-                STREAM.print("\0yellow(" + JSDUMP.parse(message) + "\0)");
-            });
-            STREAM.print("\0yellow(Actual:\0)");
-            if(messages[messageType]) {
-                messages[messageType].forEach(function(message) {
+            STREAM.print("\0yellow(Expected (type: " + messageType + ", match: "+ organizedData[messageType].match + "):\0)");
+            if(organizedData[messageType] && organizedData[messageType].messages) {
+                organizedData[messageType].messages.forEach(function(message) {
                     STREAM.print("\0yellow(" + JSDUMP.parse(message) + "\0)");
                 });
-            } else {
-                    STREAM.print("\0yellow(" + "{}" + "\0)");
             }
+            STREAM.print("\0yellow(Actual:\0)");
+            STREAM.print("\0yellow(" + JSDUMP.parse(messages) + "\0)");
             throw e;
         }        
     });
@@ -156,6 +157,11 @@ exports.expectFS = function(moduleID, testName, subjectPath) {
     if(!subjectPath.exists()) {
         throw "path does not exist: " + subjectPath;
     }
+    
+    if(moduleID.substr(-3,3)==".js") {
+        moduleID = moduleID.substr(0, moduleID.length-3);
+    }
+    
     var modulePath = FILE.path(moduleID),
         referencePath = modulePath.dirname().join("_files", modulePath.basename(), "expectFS-" + testName);
 

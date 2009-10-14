@@ -12,7 +12,7 @@ exports.testDefault = function () {
     
     TUSK_TEST_UTIL.expectResult(tusk,
         {},
-        "package list",
+        "tusk package list",
         [[{type: "message", match: "contains"}, [
             {
                 "name": "narwhal",

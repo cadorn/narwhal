@@ -1,4 +1,5 @@
 
+exports.testCacheCommands = require("./cache/all-tests");
 exports.testSeaCommands = require("./sea/all-tests");
 exports.testPackageCommands = require("./package/all-tests");
 

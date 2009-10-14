@@ -2,11 +2,9 @@
 var ASSERT = require("test/assert");
 var UTIL = require("util");
 
-
 var SEA = require("narwhal/tusk/sea");
 var TUSK = require("narwhal/tusk/tusk");
 var TUSK_TEST_UTIL = require("../util.js");
-
 
 
 /**
@@ -19,7 +17,7 @@ exports.testTestApplication = function () {
 
     var seaPath = TUSK_TEST_UTIL.getBuildPath().join("seas", "nr-test-application");
     if(seaPath.exists()) {
-//        seaPath.rmtree();
+        seaPath.rmtree();
     }
     
     var commands = [
@@ -31,8 +29,7 @@ exports.testTestApplication = function () {
         "tusk package install --alias nr-devtools http://github.com/cadorn/narwhalrunner/raw/master/catalog.json devtools",
         "nr add-bin /Applications/Firefox.app/Contents/MacOS/firefox-bin",
         "tusk package install http://github.com/cadorn/narwhalrunner/raw/master/catalog.json test-application",
-        "tusk package --package test-application build",
-        "nr launch --dev --app firefox --package test-application"
+        "tusk package --package test-application build"
     ];
 
     commands.forEach(function(command) {
@@ -44,10 +41,8 @@ exports.testTestApplication = function () {
         }
     });
 
-//    TUSK_TEST_UTIL.teardown(defaultTusk);
+    TUSK_TEST_UTIL.teardown(defaultTusk);
 };
-
 
 if (require.main === module.id)
     require("os").exit(require("test/runner").run(exports));
-

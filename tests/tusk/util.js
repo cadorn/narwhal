@@ -188,24 +188,25 @@ exports.expectFS = function(moduleID, testName, subjectPath) {
     }
 }
 
-exports.testWorkflow = function(tusk, info) {
+exports.runWorkflow = function(tusk, commands) {
 
-    info.autoCommands.forEach(function(command) {
+    commands.forEach(function(command) {
         if(typeof command == "function") {
-            command();
+            tusk = command();
         } else {
-            TUSK_TEST_UTIL.print("Running: \0bold(\0cyan(" + command + "\0)\0)");
+            exports.print("Running: \0bold(\0cyan(" + command + "\0)\0)");
             tusk.command(command);
         }
     });
+}
 
-    if(UTIL.has(info, "userCommands")) {
-    
-        TUSK_TEST_UTIL.print("\0bold(\0cyan(" + "|-----------------------------------------------------------------------" + "\0)\0)");
-        TUSK_TEST_UTIL.print("  Run to test:");
-        info.userCommands.forEach(function(command) {
-            TUSK_TEST_UTIL.print("    \0bold(\0yellow(" + command + "\0)\0)");
-        });
-        TUSK_TEST_UTIL.print("\0bold(\0cyan(" + "|-----------------------------------------------------------------------" + "\0)\0)");
+exports.printUserCommands = function(label, commands) {
+    exports.print("\0bold(\0cyan(" + "|-----------------------------------------------------------------------" + "\0)\0)");
+    if(label) {
+        exports.print("  " + label);
     }
+    commands.forEach(function(command) {
+        exports.print("    \0bold(\0yellow(" + command + "\0)\0)");
+    });
+    exports.print("\0bold(\0cyan(" + "|-----------------------------------------------------------------------" + "\0)\0)");
 }

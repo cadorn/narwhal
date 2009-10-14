@@ -20,22 +20,21 @@ exports.testTestApplication = function () {
         seaPath.rmtree();
     }
     
-    TUSK_TEST_UTIL.testWorkflow(tusk, {
-        "autoCommands": [
-            "tusk cache clear",
-            "tusk sea create --name playground " + seaPath.valueOf(),
-            function() {
-                tusk = TUSK.Tusk(defaultTusk.getPlanet(), SEA.Sea(seaPath), defaultTusk.getTheme());            
-            },
-            "tusk package install --alias nr-devtools http://github.com/cadorn/narwhalrunner/raw/master/catalog.json devtools",
-            "nr add-bin /Applications/Firefox.app/Contents/MacOS/firefox-bin",
-            "tusk package install http://github.com/cadorn/narwhalrunner/raw/master/catalog.json test-application",
-            "tusk package --package test-application build"
-        ],
-        "userCommands": [
-            tusk.getSea().getBinPath().join("sea").valueOf() + " nr launch --dev --app firefox --package test-application"
-        ]
-    });
+    TUSK_TEST_UTIL.runWorkflow(tusk, [
+        "tusk cache clear",
+        "tusk sea create --name playground " + seaPath.valueOf(),
+        function() {
+            return (tusk = TUSK.Tusk(defaultTusk.getPlanet(), SEA.Sea(seaPath), defaultTusk.getTheme()));            
+        },
+        "tusk package install --alias nr-devtools http://github.com/cadorn/narwhalrunner/raw/master/catalog.json devtools",
+        "nr add-bin /Applications/Firefox.app/Contents/MacOS/firefox-bin",
+        "tusk package install http://github.com/cadorn/narwhalrunner/raw/master/catalog.json test-application",
+        "tusk package --package test-application build"
+    ]);
+
+    TUSK_TEST_UTIL.printUserCommands("Run to test:", [
+        tusk.getSea().getBinPath().join("sea").valueOf() + " nr launch --dev --app firefox --package test-application"
+    ]);
 
     TUSK_TEST_UTIL.teardown(defaultTusk);
 };

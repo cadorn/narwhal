@@ -30,14 +30,11 @@ exports.testTestApplication = function () {
         },
         "tusk package install --alias nr-devtools http://github.com/cadorn/narwhalrunner/raw/master/catalog.json devtools",
         "nr add-bin /Applications/Firefox.app/Contents/MacOS/firefox-bin",
-/*
         "tusk package install http://github.com/cadorn/narwhalrunner/raw/master/catalog.json test-application",
         "tusk package --package test-application build",
         "nr launch --dev --app firefox --package test-application"
-*/        
     ];
 
-    
     commands.forEach(function(command) {
         if(typeof command == "function") {
             command();

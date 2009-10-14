@@ -19,7 +19,7 @@ exports.testTestApplication = function () {
     if(seaPath.exists()) {
         seaPath.rmtree();
     }
-    
+
     var commands = [
         "tusk cache clear",
         "tusk sea create --name playground " + seaPath.valueOf(),

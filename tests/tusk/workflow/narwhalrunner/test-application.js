@@ -4,13 +4,13 @@ var UTIL = require("util");
 
 var SEA = require("narwhal/tusk/sea");
 var TUSK = require("narwhal/tusk/tusk");
-var TUSK_TEST_UTIL = require("../util.js");
+var TUSK_TEST_UTIL = require("../../util.js");
 
 
 /**
  * @see http://github.com/cadorn/narwhalrunner # Demo: test-application
  */
-exports.testTestApplication = function () {
+exports.testInstall = function () {
 
     var defaultTusk = TUSK_TEST_UTIL.setup("default"),
         tusk = defaultTusk;
@@ -38,6 +38,7 @@ exports.testTestApplication = function () {
 
     TUSK_TEST_UTIL.teardown(defaultTusk);
 };
+
 
 if (require.main === module.id)
     require("os").exit(require("test/runner").run(exports));

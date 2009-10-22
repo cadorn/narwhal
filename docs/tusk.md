@@ -16,9 +16,10 @@ Status
 ------
 
 `tusk` is a work in progress although already functional and capable of
-handeling all your basic needs. If you have any questions or run into
+handling all your basic needs. If you have any questions or run into
 any problems you can seek help in the [Mailing List](http://groups.google.com/group/narwhaljs).
 
+**Current Activity:** *Refactoring CLI to: http://wiki.github.com/tlrobinson/narwhal/tusk-specification*
 
 Environmental Impact
 --------------------
@@ -269,4 +270,10 @@ Build a package from the sea. Build target are defined in `package.json` with:
             "dev": "build/dev",
         }
     }
-    
+
+
+Links
+=====
+
+  * [Debian: Chapter 5. Managing Packages](http://www.debian.org/doc/developers-reference/pkgs.html)
+  

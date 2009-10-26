@@ -7,6 +7,9 @@
         },
         "template": {
             "location": "http://github.com/gmosx/template/zipball/master/"
+        },
+        "jack": {
+            "location": "http://github.com/tlrobinson/jack/zipball/master/"
         }
     }
 }

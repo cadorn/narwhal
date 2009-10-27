@@ -55,9 +55,22 @@ var multiLoader = requireFake("loader/multi", system.prefix + "/lib/loader/multi
 var sandbox = requireFake("sandbox", system.prefix + "/lib/sandbox.js");
 
 // bootstrap file module
-requireFake("file", system.prefix + "/lib/file-bootstrap.js", "force");
+var fs = {};
+requireFake(
+    "sandbox",
+    system.prefix + "/lib/file-bootstrap.js",
+    {"file" : fs, "system": system}
+);
+// override generic bootstrapping methods with those provided
+//  by the engine bootstrap system.fs object
+for (var name in system.fs) {
+    if (Object.prototype.hasOwnProperty.call(system.fs, name)) {
+        fs[name] = system.fs[name];
+    }
+}
+system.fs = fs;
+system.enginePrefix = system.enginePrefix || system.prefix + '/engines/' + system.engines[0];
 
-system.enginePrefix = system.prefix + '/engines/' + system.engines[0];
 // construct the initial paths
 var paths = [];
 // XXX system.packagePrefixes deprecated in favor of system.prefixes

@@ -1,6 +1,6 @@
 {
     "schema": "1.1",
-    "location": "http://github.com/cadorn/narwhal/raw/master/catalogs/default.catalog.json",
+    "location": "http://github.com/cadorn/narwhal/raw/experimental/catalogs/default.catalog.json",
     "packages": {
         "narwhal": {
             "location": "http://github.com/tlrobinson/narwhal/zipball/master/"

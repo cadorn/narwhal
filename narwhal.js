@@ -49,16 +49,25 @@ var requireFake = function(id, path, force) {
     return exports;
 };
 
+var fakeJoin = function() {
+	var delim = "/";
+	if(/\bwindows\b/i.test(system.os) ||
+	   /\bwinnt\b/i.test(system.os)) {
+		delim = "\\";
+	}
+	return Array.prototype.join.call(arguments, delim);
+}
+
 // bootstrap sandbox and loader modules
-var loader = requireFake("loader", system.prefix + "/lib/loader.js");
-var multiLoader = requireFake("loader/multi", system.prefix + "/lib/loader/multi.js");
-var sandbox = requireFake("sandbox", system.prefix + "/lib/sandbox.js");
+var loader = requireFake("loader", fakeJoin(system.prefix, "lib", "loader.js"));
+var multiLoader = requireFake("loader/multi", fakeJoin(system.prefix, "lib", "loader", "multi.js"));
+var sandbox = requireFake("sandbox", fakeJoin(system.prefix, "lib", "sandbox.js"));
 
 // bootstrap file module
 var fs = {};
 requireFake(
     "sandbox",
-    system.prefix + "/lib/file-bootstrap.js",
+    fakeJoin(system.prefix, "lib", "file-bootstrap.js"),
     {"file" : fs, "system": system}
 );
 // override generic bootstrapping methods with those provided
@@ -69,7 +78,7 @@ for (var name in system.fs) {
     }
 }
 system.fs = fs;
-system.enginePrefix = system.enginePrefix || system.prefix + '/engines/' + system.engines[0];
+system.enginePrefix = system.enginePrefix || fakeJoin(system.prefix, "engines", system.engines[0]);
 
 // construct the initial paths
 var paths = [];
@@ -79,9 +88,9 @@ for (var i = 0; i < prefixes.length; i++) {
     var prefix = prefixes[i];
     for (var j = 0; j < system.engines.length; j++) {
         var engine = system.engines[j];
-        paths.push(prefixes[i] + "/engines/" + engine + "/lib");
+        paths.push(fakeJoin(prefixes[i], "engines", engine, "lib"));
     }
-    paths.push(prefixes[i] + "/lib");
+    paths.push(fakeJoin(prefixes[i], "lib"));
 }
 
 // create the primary Loader and Sandbox:

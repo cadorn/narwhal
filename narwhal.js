@@ -1,18 +1,40 @@
 (function (modules) {
 
+var deprecated;
 if (modules.fs) {
     // XXX: migration step for deprecated engines
+    // the old arguments[0] was the system module and
+    //  {fs: {}, ...} == system
+    // the new arguments[0] is the primed modules memo
+    //  {system: system, file: file}
     var system = modules;
     var file = system.fs;
     var modules = {system: system, file: file};
-    system.print(
-        "WARNING: this version of the " + system.engine + " engine \n" +
-        "         is deprecated because it injects the system module \n" +
-        "         instead of a modules memo in the narwhal bootstrap system."
-    );
+    deprecated = true;
 } else {
     var system = modules.system;
     var file = modules.file;
+}
+
+// XXX: migration step for deprecated engines
+// the old system.evaluate accepts a tuple and
+// the new system.evaluate accepts an object
+var canary = {};
+system.evaluate("exports.deprecated=true", "", 1)({exports:{}}, canary);
+if (canary.deprecated) {
+    var Factory = system.evaluate;
+    system.evaluate = function (text, name, lineNo) {
+        var factory = Factory(text, name, lineNo);
+        return function (inject) {
+            return factory(
+                inject.require,
+                inject.exports,
+                inject.module,
+                inject.system,
+                inject.print
+            );
+        }
+    };
 }
 
 // global reference
@@ -38,13 +60,13 @@ var requireFake = function(id, path, force) {
 
 
     var factory = system.evaluate(file.read(path), path, 1);
-    factory(
-        requireFake, // require
-        exports, // exports
-        module, // module
-        system, // system
-        system.print // print
-    );
+    factory({
+        require: requireFake,
+        exports: exports,
+        module: module,
+        system: system,
+        print: system.print
+    });
 
     return exports;
 };
@@ -64,29 +86,18 @@ var multiLoader = requireFake("loader/multi", fakeJoin(system.prefix, "lib", "lo
 var sandbox = requireFake("sandbox", fakeJoin(system.prefix, "lib", "sandbox.js"));
 
 // bootstrap file module
-var fs = {};
-requireFake(
-    "sandbox",
-    fakeJoin(system.prefix, "lib", "file-bootstrap.js"),
-    {"file" : fs, "system": system}
-);
-// override generic bootstrapping methods with those provided
-//  by the engine bootstrap system.fs object
-for (var name in system.fs) {
-    if (Object.prototype.hasOwnProperty.call(system.fs, name)) {
-        fs[name] = system.fs[name];
-    }
-}
-system.fs = fs;
-system.enginePrefix = system.enginePrefix || fakeJoin(system.prefix, "engines", system.engines[0]);
+requireFake("file", fakeJoin(system.prefix, "lib", "file-bootstrap.js"), "force");
 
 // construct the initial paths
 var paths = [];
 // XXX system.packagePrefixes deprecated in favor of system.prefixes
-var prefixes = system.prefixes || system.packagePrefixes || [system.prefix];
-for (var i = 0; i < prefixes.length; i++) {
+system.prefixes = system.prefixes || system.packagePrefixes || [system.prefix];
+var prefixes = system.prefixes.slice();
+if (system.enginePrefix)
+    prefixes.unshift(system.enginePrefix);
+for (var i = 0, ii = prefixes.length; i < ii; i++) {
     var prefix = prefixes[i];
-    for (var j = 0; j < system.engines.length; j++) {
+    for (var j = 0, jj = system.engines.length; j < jj; j++) {
         var engine = system.engines[j];
         paths.push(fakeJoin(prefixes[i], "engines", engine, "lib"));
     }
@@ -123,7 +134,7 @@ require.force("file-engine");
 
 // augment the path search array with those provided in
 //  environment variables
-paths.push([
+paths.push.apply(paths, [
     system.env.JS_PATH || "",
     system.env.NARWHAL_PATH || ""
 ].join(":").split(":").filter(function (path) {
@@ -139,6 +150,16 @@ var wasVerbose = system.verbose;
 if (options.verbose !== undefined) {
     system.verbose = options.verbose;
     require.verbose = system.verbose;
+}
+
+if (deprecated) {
+    if (options.verbose) {
+        system.print(
+            "WARNING: this version of the " + system.engine + " engine \n" +
+            "         is deprecated because it injects the system module \n" +
+            "         instead of a modules memo in the narwhal bootstrap system."
+        );
+    }
 }
 
 // enable loader tracing

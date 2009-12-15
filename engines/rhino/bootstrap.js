@@ -10,10 +10,13 @@
 
     /* this gets used for several fixtures */
     var context = Packages.org.mozilla.javascript.Context.getCurrentContext();
-    context.getWrapFactory().setJavaPrimitiveWrap(false); 
 
     // TODO: enable this via a command line switch
     context.setOptimizationLevel(-1);
+    
+    
+    context.setLanguageVersion(180);
+    context.getWrapFactory().setJavaPrimitiveWrap(false);
     
     var prefix = "";
     if (typeof NARWHAL_HOME != "undefined") {
@@ -40,7 +43,7 @@
         }
     };
 
-    var evaluate = function (text, name, lineNo) {
+    var evaluate = function (text, fileName, lineNo) {
         return function (inject) {
             var names = [];
             for (var name in inject)
@@ -49,7 +52,7 @@
             return context.compileFunction(
                 global,
                 "function(" + names.join(",") + "){" + text + "\n//*/\n}",
-                name,
+                fileName,
                 lineNo,
                 null
             ).apply(null, names.map(function (name) {

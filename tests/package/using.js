@@ -106,6 +106,18 @@ exports.testAll = function() {
         }
     );
 
+    ASSERT.deepEqual(
+        packages.uidCatalog,
+        {
+            "http://domain.com/packages/test-package-1": {
+                "id": "test-package-1"
+            },
+            "http://domain.com/packages/test-package-2": {
+                "id": "test-package-2"
+            }
+        }
+    );
+
     var main = require("main", "test-sea");
     
     ASSERT.deepEqual(

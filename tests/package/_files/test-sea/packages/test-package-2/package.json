@@ -1,5 +1,6 @@
 {
     "name": "test-package-2",
+    "uid": "http://domain.com/packages/test-package-2",
     "using": {
         "my-package-a": {
             "catalog": "http://domain.com/path/to/catalog/catalog.json",

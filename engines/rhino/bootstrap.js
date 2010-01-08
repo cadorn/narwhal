@@ -28,7 +28,10 @@
         prefix = String(Packages.java.lang.System.getenv("NARWHAL_HOME") || "");
     }
 
+    var sea = String(Packages.java.lang.System.getenv("SEA") || null);
+
     if (typeof SEA != "undefined") {
+        sea = SEA;
         Packages.java.lang.System.setProperty("SEA", SEA);
         delete SEA;
     }
@@ -83,6 +86,7 @@
 
     var debug = +String(Packages.java.lang.System.getenv("NARWHAL_DEBUG"));
     var verbose = +String(Packages.java.lang.System.getenv("NARWHAL_VERBOSE"));
+    var cache = !!(+String(Packages.java.lang.System.getenv("NARWHAL_CACHE_ENABLED")));
     var os = String(Packages.java.lang.System.getProperty("os.name"));
 
     try {
@@ -97,7 +101,9 @@
                 prefix: prefix,
                 evaluate: evaluate,
                 debug: debug,
-                verbose: verbose
+                verbose: verbose,
+                cache: cache,
+                sea: sea
             },
             file: {
                 read: read,

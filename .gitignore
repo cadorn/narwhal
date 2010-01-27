@@ -13,3 +13,4 @@ Makefile
 engines/jsc
 pkg
 sproutit-narwhal.gemspec
+*.local.*

@@ -89,8 +89,7 @@ var sandbox = requireFake("sandbox", fakeJoin(system.prefix, "lib", "sandbox.js"
 requireFake("file", fakeJoin(system.prefix, "lib", "file-bootstrap.js"), "force");
 
 if(system.cache) {
-    var cacheModule = requireFake("narwhal/cache", fakeJoin(system.prefix, "lib", "narwhal", "cache.js"), "force");
-    cacheModule.setBasePath(system.sea || null);
+    requireFake("narwhal/cache", fakeJoin(system.prefix, "lib", "narwhal", "cache.js"), "force");
 }
 
 // construct the initial paths

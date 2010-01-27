@@ -1,7 +1,11 @@
 {
     "name": "narwhal",
     "description": "A general purpose JavaScript platform",
-    "keywords": ["javascript", "engine", "platform"],
+    "keywords": [
+        "javascript",
+        "engine",
+        "platform"
+    ],
     "author": "Tom Robinson (http://tlrobinson.net/)",
     "contributors": [
         "Tom Robinson (http://tlrobinson.net/) <tlrobinson@280north.com>",
@@ -21,6 +25,11 @@
         "Nathan Stott (http://nathan.whiteboard-it.com) <nathan.stott@whiteboard-it.com>",
         "Toby Ho (http://tobyho.com) <airportyh@gmail.com>"
     ],
-    "lib": ["lib"],
-    "lean": ["lib", "engines"] 
+    "lib": [
+        "lib"
+    ],
+    "lean": [
+        "lib",
+        "engines"
+    ]
 }

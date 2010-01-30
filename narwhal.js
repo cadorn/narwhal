@@ -199,8 +199,10 @@ if (system.args.length && !options.interactive && !options.main) {
 }
 
 // user package prefix
-if (system.env.SEA)
+if (system.env.SEA) {
     system.prefixes.unshift(system.env.SEA);
+    system.sea = system.env.SEA;
+}
 system.prefixes.unshift.apply(system.prefixes, options.prefixes);
 
 // load packages

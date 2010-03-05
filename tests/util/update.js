@@ -35,7 +35,6 @@ exports["test update modifies first argument"] = function() {
     assert.deepEqual(obj1, obj2);
 };
 
-
 exports["test object value wins over array value in deepUpdate"] = function() {
 
     var obj1 = {
@@ -47,6 +46,21 @@ exports["test object value wins over array value in deepUpdate"] = function() {
         "a": {
             "b1": "c"
         }
+    }
+    util.deepUpdate(obj1, obj2);
+
+    assert.deepEqual(obj2, obj1);
+};
+
+exports["test empty array wins over populated array in deepUpdate"] = function() {
+
+    var obj1 = {
+        "a": [
+            "b"
+        ]
+    }
+    var obj2 = {
+        "a": []
     }
     util.deepUpdate(obj1, obj2);
 

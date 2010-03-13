@@ -14,3 +14,4 @@ engines/jsc
 pkg
 sproutit-narwhal.gemspec
 *.local.*
+.pinf-workspace.json

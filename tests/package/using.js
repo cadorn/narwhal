@@ -106,13 +106,17 @@ exports.testAll = function() {
         }
     );
 
+    // TODO: Implement looser testing for http://registry.pinf.org/cadorn.org/github/narwhal/
     ASSERT.deepEqual(
         packages.uidCatalog,
         {
-            "http://domain.com/packages/test-package-1": {
+           "http://registry.pinf.org/cadorn.org/github/narwhal/": {
+                "id": "narwhal"
+           },
+           "http://domain.com/packages/test-package-1/": {
                 "id": "test-package-1"
             },
-            "http://domain.com/packages/test-package-2": {
+            "http://domain.com/packages/test-package-2/": {
                 "id": "test-package-2"
             }
         }
@@ -178,6 +182,11 @@ function normalizeCatalog(catalogIn) {
         catalog[id] = UTIL.copy(catalogIn[id]);
         catalog[id].libPath = FILE.Path(module.path).relative(catalog[id].libPath).valueOf();
         catalog[id].directory = FILE.Path(module.path).relative(catalog[id].directory).valueOf();
+        
+        // TODO: Implement testing for UID
+        delete catalog[id].uid;
+
+        delete catalog[id].descriptor;
     }
     return catalog;
 }

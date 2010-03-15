@@ -9,8 +9,5 @@ zips
 /.tmp
 gh-pages
 Makefile
-engines/jsc
-pkg
-sproutit-narwhal.gemspec
 *.local.*
 .pinf-workspace.json

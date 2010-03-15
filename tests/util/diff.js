@@ -1,3 +1,6 @@
+
+// -- cadorn Christoph Dorn Copyright (C) 2009-2010 MIT License
+
 var assert = require("assert");
 var util = require("util");
 

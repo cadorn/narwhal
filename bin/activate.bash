@@ -47,3 +47,4 @@ fi
 if [ "$NARWHAL" ]; then
     export PATH="$("$NARWHAL" --package "$PACKAGE_HOME" --path :)"
 fi
+

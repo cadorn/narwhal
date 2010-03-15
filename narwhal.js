@@ -1,3 +1,6 @@
+
+// -- cadorn Christoph Dorn Copyright (C) 2009-2010 MIT License
+
 (function narwhal(modules) {
 
 var deprecated;

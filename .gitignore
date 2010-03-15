@@ -9,3 +9,5 @@ zips
 /.tmp
 gh-pages
 Makefile
+*.local.*
+.pinf-workspace.json

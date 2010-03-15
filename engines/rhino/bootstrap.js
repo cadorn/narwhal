@@ -1,6 +1,7 @@
 (function(global, evalGlobal) {
 // -- tlrobinson Tom Robinson
 // -- kriskowal Kris Kowal Copyright (C) 2009-2010 MIT License
+// -- cadorn Christoph Dorn Copyright (C) 2009-2010 MIT License
 
     /*
         this is a minimal engine-specific thunk for narwhal.js
@@ -32,7 +33,10 @@
         prefix = String(Packages.java.lang.System.getenv("NARWHAL_HOME") || "");
     }
 
+    var sea = String(Packages.java.lang.System.getenv("SEA") || null);
+
     if (typeof SEA != "undefined") {
+        sea = SEA;
         Packages.java.lang.System.setProperty("SEA", SEA);
         delete SEA;
     }
@@ -113,6 +117,7 @@
                 evaluate: evaluate,
                 debug: debug,
                 verbose: verbose,
+                sea: sea,
                 setOptimizationLevel: setOptimizationLevel
             },
             file: {

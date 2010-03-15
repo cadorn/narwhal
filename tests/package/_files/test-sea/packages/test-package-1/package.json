@@ -1,5 +1,6 @@
 {
     "name": "test-package-1",
+    "uid": "http://domain.com/packages/test-package-1/",
     "dependencies": [
         "domain.com/path/to/package1",
         "test-package-2"

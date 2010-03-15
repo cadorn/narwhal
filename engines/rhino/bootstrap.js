@@ -96,7 +96,6 @@
 
     var debug = +String(Packages.java.lang.System.getenv("NARWHAL_DEBUG"));
     var verbose = +String(Packages.java.lang.System.getenv("NARWHAL_VERBOSE"));
-    var cache = !!(+String(Packages.java.lang.System.getenv("NARWHAL_CACHE_ENABLED")));
     var os = String(Packages.java.lang.System.getProperty("os.name"));
 
     try {
@@ -113,7 +112,6 @@
                 evaluate: evaluate,
                 debug: debug,
                 verbose: verbose,
-                cache: cache,
                 sea: sea,
                 setOptimizationLevel: setOptimizationLevel
             },

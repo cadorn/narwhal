@@ -86,10 +86,6 @@ var sandbox = requireFake("sandbox", fakeJoin(system.prefix, "lib", "sandbox.js"
 // bootstrap file module
 requireFake("file", fakeJoin(system.prefix, "lib", "file-bootstrap.js"), "force");
 
-if(system.cache) {
-    requireFake("narwhal/cache", fakeJoin(system.prefix, "lib", "narwhal", "cache.js"), "force");
-}
-
 // construct the initial paths
 var paths = [];
 // XXX system.packagePrefixes deprecated in favor of system.prefixes
@@ -109,8 +105,7 @@ for (var i = 0, ii = prefixes.length; i < ii; i++) {
 // create the primary Loader and Sandbox:
 var loader = multiLoader.MultiLoader({
     paths: paths,
-    debug: system.verbose,
-    cache: system.cache || false
+    debug: system.verbose
 });
 if (system.loaders) {
     loader.loaders.unshift.apply(loader.loaders, system.loaders);
@@ -121,10 +116,6 @@ var require = global.require = sandbox.Sandbox({
     modules: modules,
     debug: system.verbose
 });
-
-if(system.cache) {
-    require.force("unload");
-}
 
 // patch the primordials (or: save the whales)
 // to bring them up to at least the neighborhood of ES5 compliance.
@@ -223,9 +214,7 @@ system.packages = options.packages;
 var packages;
 if (!options.noPackages) {
     packages = require("packages");
-    packages.main({
-        "cache": system.cache || false
-    });
+    packages.main();
 } else {
     packages = {
         catalog: {},

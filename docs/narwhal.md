@@ -167,12 +167,6 @@ Environment Variables
     that defaults to `"170"` for "1.7.0", and is used by
     Rhino on Java to determine the valid JavaScript syntax.
 
-*   `NARWHAL_CACHE_ENABLED` enables module and packages
-    caching for an active `SEA`. This can speed up the
-    module loading and packages discovery processes.
-    The cache is created the first time a script is run.
-    The cache can be cleared by running `tusk reheat`.
-
 Configuration Files
 -------------------
 

@@ -1,4 +1,7 @@
 
+// -- cadorn Christoph Dorn Copyright (C) 2009-2010 MIT License
+
+
 var ASSERT = require("assert");
 var FILE = require("file");
 var UTIL = require("util");
@@ -106,6 +109,22 @@ exports.testAll = function() {
         }
     );
 
+    // TODO: Implement looser testing for http://registry.pinf.org/cadorn.org/github/narwhal/
+    ASSERT.deepEqual(
+        packages.uidCatalog,
+        {
+           "http://registry.pinf.org/cadorn.org/github/narwhal/": {
+                "id": "narwhal"
+           },
+           "http://domain.com/packages/test-package-1/": {
+                "id": "test-package-1"
+            },
+            "http://domain.com/packages/test-package-2/": {
+                "id": "test-package-2"
+            }
+        }
+    );
+
     var main = require("main", "test-sea");
     
     ASSERT.deepEqual(
@@ -166,6 +185,11 @@ function normalizeCatalog(catalogIn) {
         catalog[id] = UTIL.copy(catalogIn[id]);
         catalog[id].libPath = FILE.Path(module.path).relative(catalog[id].libPath).valueOf();
         catalog[id].directory = FILE.Path(module.path).relative(catalog[id].directory).valueOf();
+        
+        // TODO: Implement testing for UID
+        delete catalog[id].uid;
+
+        delete catalog[id].descriptor;
     }
     return catalog;
 }

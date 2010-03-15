@@ -8,7 +8,6 @@ zips
 /build
 /.tmp
 gh-pages
-.hashinfo.yml
 Makefile
 engines/jsc
 pkg

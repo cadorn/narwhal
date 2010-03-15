@@ -1,4 +1,7 @@
-var assert = require("test/assert");
+
+// -- cadorn Christoph Dorn Copyright (C) 2009-2010 MIT License
+
+var assert = require("assert");
 var util = require("util");
 
 exports["test returns updated object"] = function() {
@@ -7,21 +10,64 @@ exports["test returns updated object"] = function() {
 
     var result = util.update(obj, obj2);
 
-    assert.eq(result, obj);
+    assert.equal(result, obj);
 };
 
 exports["test is variadic"] = function() {
     var obj = util.update({}, { a: 1 }, { b: 2});
 
-    assert.eq(1, obj.a);
-    assert.eq(2, obj.b);
+    assert.equal(1, obj.a);
+    assert.equal(2, obj.b);
 };
 
 exports["test last in wins for multiple sources"] = function() {
     var obj = util.update({}, { a: 1 }, { a: 2});
 
-    assert.eq(2, obj.a);
+    assert.equal(2, obj.a);
+};
+
+exports["test update modifies first argument"] = function() {
+    
+    var obj1 = {a: 1};
+    var obj2 = {a: 2};
+    
+    var obj = util.update(obj1, obj2);
+
+    assert.deepEqual(obj, obj2);
+    assert.deepEqual(obj1, obj2);
+};
+
+exports["test object value wins over array value in deepUpdate"] = function() {
+
+    var obj1 = {
+        "a": [
+            "b"
+        ]
+    }
+    var obj2 = {
+        "a": {
+            "b1": "c"
+        }
+    }
+    util.deepUpdate(obj1, obj2);
+
+    assert.deepEqual(obj2, obj1);
+};
+
+exports["test empty array wins over populated array in deepUpdate"] = function() {
+
+    var obj1 = {
+        "a": [
+            "b"
+        ]
+    }
+    var obj2 = {
+        "a": []
+    }
+    util.deepUpdate(obj1, obj2);
+
+    assert.deepEqual(obj2, obj1);
 };
 
 if (module.id == require.main)
-    require("test/runner").run(exports);
+    require("test").run(exports);

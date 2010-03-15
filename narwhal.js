@@ -1,3 +1,6 @@
+
+// -- cadorn Christoph Dorn Copyright (C) 2009-2010 MIT License
+
 (function narwhal(modules) {
 
 var deprecated;
@@ -203,8 +206,10 @@ if (system.args.length && !options.interactive && !options.main) {
 }
 
 // user package prefix
-if (system.env.SEA)
+if (system.env.SEA) {
     system.prefixes.unshift(system.env.SEA);
+    system.sea = system.env.SEA;
+}
 
 system.packages = options.packages;
 

@@ -71,15 +71,14 @@ engine.connect = function HttpClient_engine_connect (tx) {
 
     // TODO: Restructure using non-blocking IO to support asynchronous interactions.
     // In that case, you could just have a callback that gets each bytestring.
-    var is = null;
+    var reader;
     try {
-        var is = con.getInputStream();
+        // TODO: Should the input stream be rewindable?
+        reader = new IO(con.getInputStream(), null);
     } catch (ex) {
-        return resp;
+        reader = new IO(con.getErrorStream(), null);
     }
     
-    // TODO: Should the input stream be rewindable?
-    var reader = new IO(con.getInputStream(), null);
     resp.body = {forEach : function (block) {
         var buflen = 1024;
         for (

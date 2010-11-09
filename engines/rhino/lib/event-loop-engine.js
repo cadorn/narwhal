@@ -147,7 +147,7 @@ var _scheduleTimeout = function(callback, delay, repeat)
     timer = timer || new java.util.Timer("JavaScript timer thread", true);
     var task = timeout.task = new java.util.TimerTask({
         run: function(){
-            queue.enqueue(function(){
+            queue.put(function(){
                 if(!timeout.cancelled){ // check to make sure it wasn't enqueued and then later cancelled
                     func();
                 }

@@ -211,6 +211,7 @@ if (system.env.SEA) {
 }
 system.sea = (system.env.SEA)?system.env.SEA:null;
 
+system.modules = modules;
 
 system.packages = options.packages;
 

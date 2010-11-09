@@ -23,7 +23,7 @@ var Binary = exports.Binary = function() {
     // this._offset
     // this._length
 };
-
+/*
 Object.defineProperty(Binary.prototype, "length", {
     "get": function () {
         return this._length;
@@ -31,7 +31,7 @@ Object.defineProperty(Binary.prototype, "length", {
     "enumerable": false,
     "configurable": false
 });
-
+*/
 // toArray() - n array of the byte values
 // toArray(charset) - an array of the code points, decoded
 Binary.prototype.toArray = function(charset) {

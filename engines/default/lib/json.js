@@ -471,7 +471,7 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
 
 // If the text is not JSON parseable, then a SyntaxError is thrown.
 
-            throw new SyntaxError('JSON.parse');
+            throw new JsonSyntaxError('JSON.parse');
         };
     }
 })();
@@ -485,4 +485,17 @@ JSON.encode = JSON.stringify;
  * Deserialize an object from a JSON string.
  */
 JSON.decode = JSON.parse;
+
+
+
+
+var JsonSyntaxError = exports.JsonSyntaxError = function(message) {
+    this.name = "JsonSyntaxError";
+    this.message = message;
+
+    // this lets us get a stack trace in Rhino
+    if (typeof Packages !== "undefined")
+        this.rhinoException = Packages.org.mozilla.javascript.JavaScriptException(this, null, 0);
+}
+JsonSyntaxError.prototype = new Error();
 
